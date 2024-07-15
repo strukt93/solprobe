@@ -1,7 +1,8 @@
 {
   "name": "solprobe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Probe Solidity contracts for info.",
+  "bin": "index.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@solidity-parser/parser": "^0.18.0",
+    "solprobe": "^1.0.1",
     "yargs": "^17.7.2"
   }
 }

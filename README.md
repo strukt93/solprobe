@@ -6,4 +6,4 @@ A little program that investigates Solidity smart contracts and returns userful 
 
 ## Usage
 - List all functions accessible to privileged roles (detected via the use of function modifiers):
-> solprobe --dir PATH/TO/CONTRACTS/DIRECTORY --actors
+> npx solprobe --dir PATH/TO/CONTRACTS/DIRECTORY --actors

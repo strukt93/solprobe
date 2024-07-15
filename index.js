@@ -1,3 +1,5 @@
+#! /usr/bin/node
+
 const actorsFilter = require("./src/filters/actors");
 
 const args = require('yargs').argv;
