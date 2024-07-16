@@ -1,6 +1,6 @@
 {
   "name": "solprobe",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Probe Solidity contracts for info.",
   "bin": "index.js",
   "main": "index.js",
