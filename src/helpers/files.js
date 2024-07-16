@@ -49,7 +49,12 @@ const parseFiles = function(files) {
 }
 
 const parseToJson = function(dirPath, arrayOfFiles) {
-    var filenames = getAllFiles(dirPath, arrayOfFiles);
+    var filenames;
+    if(fs.statSync(dirPath).isDirectory()){
+        filenames = getAllFiles(dirPath, arrayOfFiles);
+    } else if(dirPath.endsWith(".sol")){
+        filenames = [dirPath]
+    }
     var files = readFiles(filenames);
     return parseFiles(files);
 }

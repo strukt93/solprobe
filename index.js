@@ -18,11 +18,20 @@ Object.keys(filters).forEach(filter => {
     program
         .command(`${filter}`)
         .description(filters[filter].description())
-        .argument('<dir>', 'Contracts directory to scan.')
+        .option('-d, --directory <directory>', 'Contracts directory to scan.')
+        .option('-f, --file <file>', 'Single Solidity file to scan.')
+        // .option('-d, --directory', 'Contracts directory to scan.')
         // .addOption(new Option('-o, --out <output_type>', 'Output type.').choices(['json', 'text']).default('json'))
-        .action((directory, options) => {
-            var result = filters[filter].run(directory);
-            console.log(JSON.stringify(result, null, 2));
+        .action((options) => {
+            var result;
+            if(options.file){
+               result = filters[filter].run(options.file);
+               console.log(JSON.stringify(result, null, 2));
+            }
+            if(options.directory){
+                result = filters[filter].run(options.directory);
+               console.log(JSON.stringify(result, null, 2));
+            }
             // if(options.out == "json"){
             //     console.log(JSON.stringify(result, null, 2));
             // }else{
