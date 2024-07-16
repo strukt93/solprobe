@@ -1,5 +1,6 @@
 const fs = require('fs');
-const path = require("path")
+const path = require("path");
+const parser = require('@solidity-parser/parser');
 
 const readFiles = function(filenames) {
     var filenamesAndContents = [];
@@ -32,7 +33,30 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     return arrayOfFiles;
 }
 
+const parseFiles = function(files) {
+    asts = {};
+    files.forEach(file => {
+        ast = {};
+        try{
+            asts[file.name] = parser.parse(file.content);
+        } catch (e) {
+            if (e instanceof parser.ParserError) {
+                console.error(e.errors)
+            }
+        }
+    });
+    return asts;
+}
+
+const parseToJson = function(dirPath, arrayOfFiles) {
+    var filenames = getAllFiles(dirPath, arrayOfFiles);
+    var files = readFiles(filenames);
+    return parseFiles(files);
+}
+
 module.exports = {
     getAllFiles,
-    readFiles
+    readFiles,
+    parseFiles,
+    parseToJson
 }

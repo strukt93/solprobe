@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@solidity-parser/parser": "^0.18.0",
-    "solprobe": "^1.0.1",
-    "yargs": "^17.7.2"
+    "commander": "^12.1.0",
+    "solprobe": "^1.0.1"
   }
 }

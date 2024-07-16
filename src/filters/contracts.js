@@ -1,7 +1,7 @@
 const fileHelper = require("../helpers/files");
 
 function description() {
-    return "Lists the actors and roles that can access privileged functions."
+    return "Lists all contracts and their functions."
 }
 
 function run(dir) {
@@ -11,19 +11,18 @@ function run(dir) {
         const ast = asts[key];
         ast.children.forEach(child => {
             if(child.type == "ContractDefinition") {
-                result[child.name] = {};
+                result[child.name] = [];
                 child.subNodes.forEach(subNode => {
                     if(subNode.type == "FunctionDefinition") {
                         if(subNode.name) {
+                            modifiers = [];
                             subNode.modifiers.forEach(modifier => {
-                                if(modifier.name != "nonReentrant"){
-                                    if(result[child.name][modifier.name] === undefined) result[child.name][modifier.name] = [];
-                                    var modifierName = modifier.name;
-                                    if(modifier.name == "onlyRole"){
-                                        modifierName = "onlyRole(" + modifier.arguments[0].name +")";
-                                    }
-                                    result[child.name][modifier.name].push(subNode.name + "()");
-                                }
+                                modifiers.push(modifier.name);
+                            });
+                            result[child.name].push({
+                                name: subNode.name,
+                                visibility: subNode.visibility,
+                                modifiers: modifiers
                             });
                         }
                     }
