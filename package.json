@@ -1,6 +1,6 @@
 {
   "name": "solprobe",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Probe Solidity contracts for info.",
   "bin": "index.js",
   "main": "index.js",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@solidity-parser/parser": "^0.18.0",
     "commander": "^12.1.0",
+    "ethers": "^6.13.1",
+    "etherscan-api": "^10.3.0",
     "solprobe": "^1.0.1"
   }
 }

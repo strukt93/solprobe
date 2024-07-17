@@ -1,14 +1,14 @@
-const fileHelper = require("../helpers/files");
+const fileHelper = require("../helpers/util");
 
 function description() {
     return "Lists the actors and roles that can access privileged functions."
 }
 
-function run(dir) {
-    var asts = fileHelper.parseToJson(dir, []);
+async function run(dir, options) {
+    var parsed = await fileHelper.parseToJson(dir, [], options);
     var result = {};
-    Object.keys(asts).forEach(key => {
-        const ast = asts[key];
+    Object.keys(parsed).forEach(key => {
+        const ast = parsed[key];
         ast.children.forEach(child => {
             if(child.type == "ContractDefinition") {
                 result[child.name] = {};

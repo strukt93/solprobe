@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { program, Option } = require('commander');
+const { program } = require('commander');
 const filters = {};
 const filtersPath = require('path').join(__dirname, 'src/filters');
 require('fs')
@@ -18,20 +18,12 @@ Object.keys(filters).forEach(filter => {
     program
         .command(`${filter}`)
         .description(filters[filter].description())
-        .option('-d, --directory <directory>', 'Contracts directory to scan.')
-        .option('-f, --file <file>', 'Single Solidity file to scan.')
-        // .option('-d, --directory', 'Contracts directory to scan.')
+        .argument('<target>', 'Target to probe. Can be a contracts directory, a single Solidity file, or an EVM address.')
         // .addOption(new Option('-o, --out <output_type>', 'Output type.').choices(['json', 'text']).default('json'))
-        .action((options) => {
+        .action(async function (target, options) {
             var result;
-            if(options.file){
-               result = filters[filter].run(options.file);
-               console.log(JSON.stringify(result, null, 2));
-            }
-            if(options.directory){
-                result = filters[filter].run(options.directory);
-               console.log(JSON.stringify(result, null, 2));
-            }
+            var result = await filters[filter].run(target, options);
+            console.log(JSON.stringify(result, null, 2));
             // if(options.out == "json"){
             //     console.log(JSON.stringify(result, null, 2));
             // }else{
