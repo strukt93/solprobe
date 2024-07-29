@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { program } = require('commander');
+const { program, Option } = require('commander');
 const filters = {};
 const filtersPath = require('path').join(__dirname, 'src/filters');
 require('fs')
@@ -19,16 +19,11 @@ Object.keys(filters).forEach(filter => {
         .command(`${filter}`)
         .description(filters[filter].description())
         .argument('<target>', 'Target to probe. Can be a contracts directory, a single Solidity file, or an EVM address.')
-        // .addOption(new Option('-o, --out <output_type>', 'Output type.').choices(['json', 'text']).default('json'))
+        .addOption(new Option('-o, --out <output_type>', 'Output type.').choices(['json', 'text']).default('json'))
         .action(async function (target, options) {
             var result;
             var result = await filters[filter].run(target, options);
-            console.log(JSON.stringify(result, null, 2));
-            // if(options.out == "json"){
-            //     console.log(JSON.stringify(result, null, 2));
-            // }else{
-            //     console.log(JSON.stringify(result, null, '\t'));
-            // }
+            console.log(result);
         });
 });
 program

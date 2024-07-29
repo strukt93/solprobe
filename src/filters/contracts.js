@@ -4,6 +4,25 @@ function description() {
     return "Lists all contracts and their functions."
 }
 
+function toHumanReadable(obj){
+    var s = "";
+    for(let contractName in obj) {
+        if(Object.keys(obj[contractName]).length !== 0){
+            s += "contract " + contractName + "\n";
+            for(func of obj[contractName]){
+                var name = func['name'];
+                var visibility = func['visibility'];
+                var modifiers = func['modifiers'].length > 0 ? func['modifiers'].join(", ") : "None";
+                s += "\tfunction " + name + "()"; 
+                s +=  " (" + visibility + "):\t";
+                s += "modifiers: " + modifiers + "\n";
+            }
+            s += "\n";
+        }
+    }
+    return s;
+}
+
 async function run(dir, options) {
     var parsed = await fileHelper.parseToJson(dir, [], options);
     if(parsed["error"]){
@@ -13,7 +32,7 @@ async function run(dir, options) {
     Object.keys(parsed).forEach(key => {
         const ast = parsed[key];
         ast.children.forEach(child => {
-            if(child.type == "ContractDefinition") {
+            if(child.type == "ContractDefinition" && child.kind != "interface") {
                 result[child.name] = [];
                 child.subNodes.forEach(subNode => {
                     if(subNode.type == "FunctionDefinition") {
@@ -33,6 +52,10 @@ async function run(dir, options) {
             }
         });
     });
+
+    if(options.out == "text"){
+        return toHumanReadable(result);
+    }
     return result;
 }
 
